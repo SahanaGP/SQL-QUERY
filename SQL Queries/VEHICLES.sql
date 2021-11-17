@@ -203,6 +203,38 @@ SELECT * FROM  bike_details WHERE Bike_Price IN (SELECT AVG(Bike_Price)FROM bike
 SELECT * FROM bike_details WHERE Bike_Model IN((SELECT Bike_Model FROM bike_details GROUP BY Bike_Id HAVING Bike_Id>2));
 SELECT * FROM bike_details WHERE Bike_Id>1; 
 
+CREATE TABLE bikes
+(
+     Bike_Id INT PRIMARY KEY,
+     Bike_Brand VARCHAR(30) NOT NULL,
+     Bike_Model VARCHAR(30) DEFAULT'A10',
+     Bike_Price DECIMAL CHECK(Bike_Price>=50000),
+     Bike_colour VARCHAR(10),
+     Engine_No VARCHAR(20)UNIQUE
+     );
+     
+-- to alter any data inside table
+-- ALTER TABLE bikes MODIFY Book_Name varchar(35);
 
+DESCRIBE bikes;
 
+SHOW TABLES;
 
+SELECT*FROM VEHICLES.bike_details;
+
+INSERT INTO bikes SELECT * FROM bike_details WHERE Bike_BRAND IN (SELECT Bike_Brand FROM bike_details);
+
+SELECT*FROM bikes;
+
+UPDATE bike_details SET Bike_Price=90000 WHERE Bike_Brand IN (SELECT Bike_Brand FROM bikes);
+DELETE FROM bike_details WHERE Bike_Brand=(SELECT Bike_Brand FROM bikes );
+
+SELECT USER,HOST FROM mysql.user;
+
+CREATE USER 'TempUser1'@'localhost';
+
+SHOW GRANTS FOR 'TempUser1'@'localhost';
+
+GRANT SELECT,UPDATE,DELETE ON bike_details TO 'TempUser1'@'localhost';
+
+REVOKE CREATE,DELETE ON bike_details FROM 'TempUser1'@'localhost';
